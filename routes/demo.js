@@ -146,7 +146,7 @@ router.post('/login', async function (req, res) {
     return;
   }
 
-  req.session.user = { id: existingUser._id, email: existingUser.email };
+  req.session.user = { id: existingUser._id.toString(), email: existingUser.email };
   req.session.isAuthenticated = true;
   req.session.save(function () {
     res.redirect('/profile');
