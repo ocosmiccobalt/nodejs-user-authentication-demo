@@ -1,5 +1,5 @@
 {
-  "name": "user-authentication-demo",
+  "name": "nodejs-user-authentication-demo",
   "version": "1.0.0",
   "private": true,
   "description": "User authentication & working with sessions in NodeJS & Express websites",
