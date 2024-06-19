@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const { ObjectId } = require('mongodb');
 
 const db = require('../data/database');
 
@@ -146,7 +147,7 @@ router.post('/login', async function (req, res) {
     return;
   }
 
-  req.session.user = { id: existingUser._id, email: existingUser.email };
+  req.session.user = { id: existingUser._id.toString(), email: existingUser.email };
   req.session.isAuthenticated = true;
   req.session.save(function () {
     res.redirect('/profile');
@@ -158,7 +159,9 @@ router.get('/admin', async function (req, res) {
     return res.status(401).render('401');
   }
 
-  const user = await db.getDb().collection('users').findOne({ _id: req.session.user.id });
+  const user = await db.getDb().collection('users').findOne({
+    _id: ObjectId.createFromHexString(req.session.user.id)
+  });
 
   if (!user || !user.isAdmin) {
     return res.status(403).render('403');
